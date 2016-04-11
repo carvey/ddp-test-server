@@ -22,8 +22,12 @@ if (Meteor.isServer) {
   });
 }
 
-function addCupcake(num){
-  var cupcake = document.getElementById('cupcakes');
-  cupcake.innerHTML = num;
-  console.log('blah');
-}
+Meteor.methods({
+
+  addCupcake: function(num, stuff) {
+    //var cupcake = document.getElementById('cupcakes');
+    //cupcake.innerHTML = num;
+    console.log(stuff + ' blah2222 - ' + num);
+  }
+
+});
