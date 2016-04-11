@@ -21,3 +21,9 @@ if (Meteor.isServer) {
     // code to run on server at startup
   });
 }
+
+function addCupcake(num){
+  var cupcake = document.getElementById('cupcakes');
+  cupcake.innerHTML = num;
+  console.log('blah');
+}
