@@ -1,10 +1,18 @@
 if (Meteor.isClient) {
   // counter starts at 0
   Session.setDefault('counter', 0);
+  Session.setDefault('cupcakes', 0);
+  Session.setDefault('eaten', 0);
 
   Template.hello.helpers({
     counter: function () {
       return Session.get('counter');
+    },
+    cupcakes: function() {
+      return Session.get('cupcakes');
+    },
+    eaten: function() {
+      return Session.get('eaten');
     }
   });
 
@@ -25,9 +33,11 @@ if (Meteor.isServer) {
 Meteor.methods({
 
   addCupcake: function(num, stuff) {
-    //var cupcake = document.getElementById('cupcakes');
-    //cupcake.innerHTML = num;
-    console.log(stuff + ' blah2222 - ' + num);
+
+    // Session.set('cupcakes', num);
+    // Session.set('eaten', stuff);
+    console.log(num + " " + stuff)
+
   }
 
 });
