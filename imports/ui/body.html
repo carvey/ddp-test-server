@@ -1,0 +1,18 @@
+
+
+<body>
+
+    <div class="container">
+
+        <ul>
+            {{#each pydata}}
+                {{> data_template}}
+            {{/each}}
+        </ul>
+    </div>
+
+</body>
+
+<template name="data_template">
+    <li>{{ data }}</li>
+</template>
