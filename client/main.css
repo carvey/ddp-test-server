@@ -1,0 +1,26 @@
+.parent {
+    position: relative;
+}
+.centered-vh {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.centered-h
+{
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.title
+{
+    font-size: 36px;
+}
+
+.graph
+{
+    margin-top: 25px;
+}

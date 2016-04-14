@@ -4,15 +4,22 @@
 
     <div class="container">
 
-        <ul>
-            {{#each pydata}}
-                {{> data_template}}
-            {{/each}}
-        </ul>
+        {{> graph }}
+
     </div>
 
 </body>
 
 <template name="data_template">
     <li>{{ data }}</li>
+</template>
+
+<template name="graph">
+    <div class="centered-vh">
+        <header class="centered-h title">
+            Distributed Data Protocol
+        </header>
+
+        <canvas class="graph" id="chart" width="800px" height="400px"></canvas>
+    </div>
 </template>
