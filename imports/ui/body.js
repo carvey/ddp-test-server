@@ -4,6 +4,9 @@ import { PyData } from '../api/pydata';
 
 import './body.html';
 
+var line_chart;
+var graph_count = 10;
+
 
 Template.body.helpers({
    pydata() {
@@ -11,27 +14,59 @@ Template.body.helpers({
    }
 });
 
-var line_chart;
+Template.graph.events({
+    "click #clear": function() {
+        console.log("clearing");
+        Meteor.call('removePyData');
 
+        for (i in get_data())
+        {
+            line_chart.removeData();
+        }
+
+        labels_list = [];
+        for (var i = 0; i < graph_count; i++){
+            labels_list.push(i);
+        }
+
+        line_chart.scale.xLabels = labels_list;
+        line_chart.update();
+    }
+});
 
 PyData.find().observeChanges({
-    added: function (id, user) {
-        console.log("Updating!");
-        // line_chart.update();
-        var canvas = $("#chart");
-    var context = canvas[0].getContext('2d');
+    added: function (id, data) {
 
-    console.log(get_data());
-    // console.log(pydata);
+        if (line_chart === undefined)
+        {
+            console.log("Graph is empty");
+        }
+        else
+        {
+            line_chart.addData([data.data], graph_count.toString());
+            line_chart.update();
+
+            graph_count = graph_count + 1;
+        }
+
+    }
+});
+
+Template.graph.rendered = function()
+{
+    draw_chart();
+};
+
+function draw_chart() {
     var labels_list = [];
-    
-    for (var i = 0; i < 30; i++){
+    var raw_data = get_data();
+    // graph_count = raw_data.length;
+
+    for (var i = 0; i < graph_count; i++){
         labels_list.push(i);
     }
-        
-    
+
     var data = {
-        // labels: ["January", "February", "March", "April", "May", "June", "July"],
         labels: labels_list,
         datasets: [
             {
@@ -42,17 +77,16 @@ PyData.find().observeChanges({
                 pointStrokeColor: "#fff",
                 pointHighlightFill: "#fff",
                 pointHighlightStroke: "rgba(220,220,220,1)",
-                data: get_data()
+                data: raw_data
             }
         ]
     };
 
-    line_chart = new Chart(context).Line(data);
-    line_chart.update();
-    console.log(line_chart);
-    }
-});
+    var canvas = $('#chart');
+    var context = canvas[0].getContext('2d');
 
+    line_chart = new Chart(context).Line(data);
+}
 
 function get_data() {
     var pydata_list = [];
@@ -60,43 +94,6 @@ function get_data() {
     pydata.forEach(function (pydata_instance) {
         pydata_list.push(pydata_instance.data);
     });
-    console.log(pydata_list);
 
     return pydata_list;
 }
-
-Template.graph.rendered = function(){
-    var canvas = $("#chart");
-    var context = canvas[0].getContext('2d');
-
-    console.log(get_data());
-    // console.log(pydata);
-    
-    var labels_list = [];
-    
-    for (var i = 0; i < 30; i++){
-        labels_list.push(i);
-    }
-        
-    
-    var data = {
-        // labels: ["January", "February", "March", "April", "May", "June", "July"],
-        labels: labels_list,
-        datasets: [
-            {
-                label: "My First dataset",
-                fillColor: "rgba(220,220,220,0.2)",
-                strokeColor: "rgba(220,220,220,1)",
-                pointColor: "rgba(220,220,220,1)",
-                pointStrokeColor: "#fff",
-                pointHighlightFill: "#fff",
-                pointHighlightStroke: "rgba(220,220,220,1)",
-                data: get_data()
-            }
-        ]
-    };
-
-    line_chart = new Chart(context).Line(data);
-    line_chart.update();
-    console.log(line_chart);
-};
