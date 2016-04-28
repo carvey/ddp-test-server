@@ -1,6 +1,6 @@
 import { Template } from 'meteor/templating';
 
-import { PyData } from '../api/pydata';
+import { PyData, GraphClear } from '../api/pydata';
 
 import './body.html';
 
@@ -11,7 +11,27 @@ var graph_count = 10;
 Template.body.helpers({
    pydata() {
        return PyData.find({});
-   }
+   },
+
+});
+
+Template.graph.helpers({
+    clearGraph() {
+        var clear = GraphClear.findOne({});
+
+        // if (clear === undefined)
+        // {
+        //     GraphClear.insert({flag: false});
+        //     clear = GraphClear.findOne({});
+        // }
+
+        if (clear.flag){
+            return "disabled";
+        } else {
+            return "";
+        }
+
+    }
 });
 
 Template.graph.events({
@@ -51,6 +71,7 @@ PyData.find().observeChanges({
 
     }
 });
+
 
 Template.graph.rendered = function()
 {

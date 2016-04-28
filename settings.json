@@ -1,7 +1,8 @@
 {
   "galaxy.meteor.com": {
     "env": {
-      "MONGO_URL": "mongodb://<dbuser>:<dbpassword>@ds033307.mlab.com:33307/carvey-ddp"
+      "ROOT_URL": "http://www.charlesarvey.com",
+      "MONGO_URL": "mongodb://carvey:shorefish7@ds033307.mlab.com:33307/carvey-ddp"
     }
   }
 }

@@ -1,4 +1,4 @@
-import { PyData } from  '../imports/api/pydata.js';
+import { PyData, GraphClear } from  '../imports/api/pydata.js';
 
 Meteor.methods({
 
@@ -7,8 +7,30 @@ Meteor.methods({
     },
     
     removePyData: function() {
-        console.log("dropping");
         PyData.remove({});
+    },
+
+    enableGraphClear: function () {
+        var clear = GraphClear.findOne({});
+
+        if (clear === undefined)
+        {
+            GraphClear.insert({flag: false})
+        } else {
+            GraphClear.update(clear._id, {$set: {flag: false}})
+        }
+    },
+
+    disableGraphClear: function () {
+        var clear = GraphClear.findOne({});
+
+        if (clear === undefined)
+        {
+            GraphClear.insert({flag: true})
+        } else {
+            GraphClear.update(clear._id, {$set: {flag: true}})
+        }
+
     }
 
 });
