@@ -19,12 +19,6 @@ Template.graph.helpers({
     clearGraph() {
         var clear = GraphClear.findOne({});
 
-        // if (clear === undefined)
-        // {
-        //     GraphClear.insert({flag: false});
-        //     clear = GraphClear.findOne({});
-        // }
-
         if (clear.flag){
             return "disabled";
         } else {
@@ -38,19 +32,6 @@ Template.graph.events({
     "click #clear": function() {
         console.log("clearing");
         Meteor.call('removePyData');
-
-        for (i in get_data())
-        {
-            line_chart.removeData();
-        }
-
-        labels_list = [];
-        for (var i = 0; i < graph_count; i++){
-            labels_list.push(i);
-        }
-
-        line_chart.scale.xLabels = labels_list;
-        line_chart.update();
     }
 });
 
@@ -69,6 +50,11 @@ PyData.find().observeChanges({
             graph_count = graph_count + 1;
         }
 
+    },
+
+    removed: function(id) {
+        line_chart.removeData();
+        clear_chart();
     }
 });
 
@@ -117,4 +103,14 @@ function get_data() {
     });
 
     return pydata_list;
+}
+
+function clear_chart() {
+    labels_list = [];
+    for (var i = 0; i < graph_count; i++){
+        labels_list.push(i);
+    }
+
+    line_chart.scale.xLabels = labels_list;
+    line_chart.update();
 }
